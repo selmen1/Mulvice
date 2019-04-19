@@ -1,0 +1,129 @@
+	{% extends "base/base.html" %}
+
+	{% block body %}
+		
+
+
+<style type="text/css">
+.row {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+  ;
+}
+
+.col-3 {
+  -ms-flex: 0 0 25%;
+  flex: 0 0 25%;
+  max-width: 25%;
+}
+
+.col-6 {
+  -ms-flex: 0 0 50%;
+  flex: 0 0 50%;
+  max-width: 50%;
+}
+
+
+
+
+</style>
+
+
+
+
+<div class="row">
+	<div class="col-3" style="">
+    	<div id='map' style="width: 800px;margin-right: 820px;"></div>
+		<pre id='coordinates' class='coordinates'></pre>
+
+	</div>
+    <div class="col-3">
+
+
+    	<form method="POST" style="display: grid; margin-left: 500px">
+    		{% csrf_token %}
+			
+			<label>Nom du service</label>
+			<input type="text" name="">
+			<label>Description</label>
+			<input type="text" name="">
+			<label>Location</label>
+			<input type="text" name="">
+			<label>service type</label>
+			<input type="text" name="service_type">
+			<label>latitude       ...</label>
+			<input type="text" name="lati" id="lat">
+			<label>langtitude</label>
+			<input type="text" name="langt" id="lang">
+			<button type="submit" class="btn btn-primary">Ajouter</button>
+		</form>
+	</div>
+    
+</div>
+
+
+
+<script type="text/javascript">
+	
+		//create a map
+	mapboxgl.accessToken = 'pk.eyJ1IjoibXNhbWlyIiwiYSI6ImNqdGphZWVkZDBzd3M0YWtpM2Y0bzhhNG4ifQ.CIn3tX2_VC_N0hMh1lzAGg';
+	const map = new mapboxgl.Map({
+	  container: 'map',
+	  style: 'mapbox://styles/msamir/cjtkion1e2tux1fnrxdhvs5lc',
+	  center: [3.424100, 36.780000],
+	  zoom: 7.0
+	});
+
+
+
+	//Geo Coder (search)
+	var acctok = map.addControl(new MapboxGeocoder({
+	accessToken: mapboxgl.accessToken
+	}));
+
+
+	//get user location using button
+	var uloc = map.addControl(new mapboxgl.GeolocateControl({
+	    positionOptions: {
+	        enableHighAccuracy: true
+	    },
+	    trackUserLocation: true,
+	}));
+	console.log()
+	//zoom in and zoom out using button
+	var nav = new mapboxgl.NavigationControl();
+	var cont = map.addControl(nav, 'top-right');
+
+
+
+
+
+	var marker = new mapboxgl.Marker({
+	draggable: true
+	})
+	.setLngLat([3.424100, 36.780000])
+	.addTo(map);
+	 
+	function onDragEnd() {
+	var lngLat = marker.getLngLat();
+	
+	document.getElementById('lang').value= lngLat.lng;
+	document.getElementById('lat').value= lngLat.lat;
+
+	}
+	 
+	marker.on('dragend', onDragEnd);
+
+
+</script>
+
+	
+		    
+{% endblock body %}		
+
+
+
