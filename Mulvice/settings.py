@@ -133,3 +133,9 @@ STATICFILES_DIRS = [
 
 STATIC_ROOT =  os.path.join(os.path.dirname(BASE_DIR), "static_cdn")    
 MEDIA_ROOT =  os.path.join(os.path.dirname(BASE_DIR), "media_cdn")    
+
+
+from django.urls import reverse_lazy
+LOGIN_REDIRECT_URL = reverse_lazy('dashboard')
+LOGOUT_REDIRECT_URL = reverse_lazy('dashboard')
+
