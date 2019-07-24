@@ -1,0 +1,46 @@
+{% extends "base/base.html" %}
+
+
+
+
+{% block title %}
+    Service detail
+{% endblock title %}
+
+{% block navbar %}
+	{% include  "base/nav_base.html" %}
+	
+{% endblock navbar %}
+
+{% block body %}
+<hr>
+<br>
+
+	{% with url_name=request.resolver_match.url_name %}
+	    {% if url_name == 'service_detail' %}
+			<h1>{{service.service_name}}</h1>
+		    {% if service.cover_pic %}
+				<img src="{{service.cover_pic.url}}" style="width: 150px; height: 100px">
+			{% endif %}
+			<p>{{service.id}}</p>
+			<p>{{service.profile}}</p>
+			<p>{{service.service_name}}</p>
+			<p>{{service.discription}}</p>	
+	       
+	    {% elif url_name == 'my_services_detail' %}
+		        <form method="POST" enctype="multipart/form-data">
+		        	{% csrf_token %}
+		        	{{form.as_p}}
+		        	{{form1.as_p}}
+
+		        	<button type="submit">Modifier</button>
+		        </form>
+	    {% endif %}
+	{% endwith %}
+
+
+
+
+
+{% endblock body %}
+

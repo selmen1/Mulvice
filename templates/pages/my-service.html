@@ -1,0 +1,68 @@
+{% extends "base/base.html" %}
+
+
+
+
+{% block title %}
+    Mes Services
+{% endblock title %}
+
+{% block navbar %}
+
+
+    {% include  "base/nav_base.html" %}
+	
+{% endblock navbar %}
+
+{% block side_bar %}
+<hr>
+     {% include  "base/side_bar_base.html" %}
+     <hr>
+{% endblock side_bar %}
+
+
+{% block body %}
+
+
+
+
+
+	{% for service in services%}
+
+		<p>{{service.id}}</p>
+		
+		<p>{{service.service_name}}</p>
+		
+		<p>{{service.discription}}</p>
+		<br>
+		<a href="{% url 'my_services_detail' pk=service.pk %}"><button class="btn btn-primary">detail</button></a>
+		<hr>
+	{% endfor %}
+
+
+	<div class="pagination">
+	    <span class="step-links">
+	        {% if services.has_previous %}
+	            <a href="?page=1">&laquo; first</a>
+	            <a href="?page={{ services.previous_page_number }}">previous</a>
+	        {% endif %}
+
+	        <span class="current">
+	            Page {{ services.number }} of {{ services.paginator.num_pages }}.
+	        </span>
+
+	        {% if services.has_next %}
+	            <a href="?page={{ services.next_page_number }}">next</a>
+	            <a href="?page={{ services.paginator.num_pages }}">last &raquo;</a>
+	        {% endif %}
+	    </span>
+	</div>
+
+
+
+    
+{% endblock body %}
+
+
+
+	

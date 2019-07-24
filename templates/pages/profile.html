@@ -1,0 +1,45 @@
+{% extends "base/base.html" %}
+
+
+
+
+{% block title %}
+    Profile
+{% endblock title %}
+
+{% block navbar %}
+	{% include  "base/nav_base.html" %}	
+	<br>
+{% endblock navbar %}
+
+{% block side_bar %}
+<hr>
+<br>
+    {% include  "base/side_bar_base.html" %}	
+    <br>
+{% endblock side_bar %}
+
+{% block body %}
+<hr><br>
+
+
+	{% if profile.picture %}
+		<img src="{{profile.picture.url}}" style="width: 100px; height: 100px">
+	{% endif %}
+
+
+	<form method="POST" enctype="multipart/form-data">{% csrf_token %}
+
+		{{form.as_p}}
+		
+		<button type="submit">modifier</button>
+
+	</form>
+{% endblock body %}
+
+
+
+
+
+
+

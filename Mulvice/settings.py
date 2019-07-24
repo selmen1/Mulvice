@@ -121,11 +121,12 @@ STATICFILES_DIRS = [
 
 
 
-STATIC_ROOT =  os.path.join(os.path.dirname(BASE_DIR), "static_cdn")    
-MEDIA_ROOT =  os.path.join(os.path.dirname(BASE_DIR), "media_cdn")    
+STATIC_ROOT =  os.path.join(os.path.dirname(BASE_DIR), "static_cdn")  
+MEDIA_ROOT =  'media'   
+MEDIA_URL =  '/media/'   
 
-LOGOUT_REDIRECT_URL = '/accounts/login'
-LOGIN_REDIRECT_URL = '/accounts/change-password'
+LOGOUT_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = '/accounts/profile'
 
 AUTH_USER_MODEL = 'Accounts.User'
 

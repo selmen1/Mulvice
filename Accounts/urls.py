@@ -1,6 +1,7 @@
 
 from django.urls                import path,re_path , include
 from Accounts.views             import *
+from services.views             import *
 from django.contrib.auth.views import LoginView ,LogoutView , PasswordResetView , PasswordResetCompleteView,  PasswordChangeDoneView, PasswordResetConfirmView, PasswordResetDoneView
 
 urlpatterns = [
@@ -17,6 +18,11 @@ urlpatterns = [
     path('signup/', signup, name='signup'),
     re_path('activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/',
         activate, name='activate'),
+
+    path('profile/', profile , name='profile'),
+
+
+    #re_path('profile/(?P<pk>\d+)/', profile , name='profile'),
 
     path('change-password/', change_password , name='change_password'),
    ]   

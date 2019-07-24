@@ -1,0 +1,78 @@
+
+{% extends "base/base.html" %}
+
+
+
+
+{% block title %}
+    Services
+{% endblock title %}
+
+
+
+
+
+
+{% block navbar %}
+    {% include  "base/nav_base.html" %}
+{% endblock navbar %}
+
+{% block map %}
+    {% include  "base/service_map.html" %}
+{% endblock map %}
+
+
+{% block body %}
+<hr>
+<br>
+
+<form method="GET" >
+	<input type="text" name="q" placeholder="nom service" value="{{ request.GET.q}}">
+	<input type="text" name="q1" placeholder="categorie" value="{{ request.GET.q1}}">
+	<input type="submit" name="">
+</form>
+<hr>
+
+	
+	{% for cat in categories %}
+
+		<p>id: {{cat.service.id}}</p>
+		<p>Service: {{cat.service.service_name}}</p>
+		<p>Discription: {{cat.service.discription}}</p>
+		
+		<p>Profile: {{cat.service.profile.get_full_name}}</p>
+		
+		<p>Categorie: {{cat.categorie.libelle}}</p>
+		
+		<a href="{% url 'service_detail' pk=cat.service.pk %}"><button class="btn btn-primary">detail</button></a>
+		<hr><br>
+	{% endfor %}
+<br>
+
+	<div class="pagination">
+	    <span class="step-links">
+	        {% if categories.has_previous %}
+	            <a href="?page=1">&laquo; first</a>
+	            <a href="?page={{ categories.previous_page_number }}">previous</a>
+	        {% endif %}
+
+	        <span class="current">
+	            Page {{ categories.number }} of {{ categories.paginator.num_pages }}.
+	        </span>
+
+	        {% if categories.has_next %}
+	            <a href="?page={{ categories.next_page_number }}">next</a>
+	            <a href="?page={{ categories.paginator.num_pages }}">last &raquo;</a>
+	        {% endif %}
+	    </span>
+	</div>
+	
+
+	
+    
+{% endblock body %}
+
+
+
+
+
