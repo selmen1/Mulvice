@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+    <title>Se connecter</title>
+
+ </head>
+
+  <body style="background-color: #ebf0f3">
+  
+
+		<div class="container">
+			<div class="panel panel-default"  style="margin-left: 30%;  margin-right: 30%;margin-top: 5%; margin-bottom: 5%">
+			  <form class="form-signin" method="POST">
+			      	<div class="text-center">
+			      	
+					    <img src="" alt="" width="100" height="130" style="background-color: #fff;" >
+					    <h1 class="h3 mb-3 font-weight-normal">Veuillez vous connecter</h1>
+			      	
+			      	</div>
+					{% csrf_token %}
+					{{ form.as_p }}
+			      	<button class="btn btn-lg btn-primary btn-block" type="submit">Se connecter</button>
+			      
+			      	<div class="checkbox mb-3">
+				        <label>
+				          <input type="checkbox" value="remember-me">Se souvenir de moi
+				        </label>
+			      	</div>
+					<a href="{% url 'password_reset' %}">Mot de passe oublié?</a>
+					<p class="mt-5 mb-3 text-muted">&copy;Capture Doc tous droits réservés.</p>
+		    	</form>
+			</div>
+		</div>    
+
+  </body>
+</html>
+
+	
