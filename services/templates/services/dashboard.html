@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>dashboard</title>
+</head>
+<body>
+	{% if request.user.is_authenticated %}
+		<p> Salut {{request.user}}</p>
+		<a href="{% url 'logout' %}"> logout </a>
+	{% else %}
+		<p> Salut anonyme!</p>
+	{% endif %}	
+</body>
+</html>

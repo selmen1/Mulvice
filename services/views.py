@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from django.shortcuts 				import render,  get_object_or_404 ,redirect 
 from django.contrib 				import messages
 from django.contrib.auth.decorators import login_required
@@ -6,11 +7,22 @@ from django.http                    import HttpResponse
 from django.db.models               import Q
 from .models 						import *
 from .forms 						import *
+=======
+from django.shortcuts import render,redirect
+>>>>>>> pre-prod
 
 # Create your views here.
+from django.views.generic import TemplateView
+from django.contrib.auth.forms import UserCreationForm
 
+def home(request):
+	return render(request,'services/home.html')
 
+class DashboardView(TemplateView):
+    """docstring for DashboardView"""
+    template_name='services/dashboard.html'
 
+<<<<<<< HEAD
 @login_required
 def profile(reqeust ):
 	template_name = 'pages/profile.html'
@@ -139,3 +151,18 @@ def my_services_detail(reqeust , pk ):
 		
 	context = { 'form' : form ,'form1' : form1 , 'profile':profile}
 	return render(reqeust , template_name , context)
+=======
+def register(request):
+	if request.method == 'POST':
+		form = UserCreationForm(request.POST)
+		if form.is_valid() :
+			form.save()
+			return redirect('login')
+
+	else:
+		form=UserCreationForm()
+
+
+	args={'form':form}
+	return render(request,'services/reg_form.html',args)		
+>>>>>>> pre-prod

@@ -125,10 +125,23 @@ STATIC_ROOT =  os.path.join(os.path.dirname(BASE_DIR), "static_cdn")
 MEDIA_ROOT =  'media'   
 MEDIA_URL =  '/media/'   
 
+<<<<<<< HEAD
 LOGOUT_REDIRECT_URL = 'home'
 LOGIN_REDIRECT_URL = '/accounts/profile'
+=======
+<<<<<<< HEAD
+
+from django.urls import reverse_lazy
+LOGIN_REDIRECT_URL = reverse_lazy('dashboard')
+LOGOUT_REDIRECT_URL = reverse_lazy('dashboard')
+
+=======
+LOGOUT_REDIRECT_URL = '/accounts/login'
+LOGIN_REDIRECT_URL = '/accounts/change-password'
+>>>>>>> pre-prod
 
 AUTH_USER_MODEL = 'Accounts.User'
 
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 1025
+>>>>>>> master
