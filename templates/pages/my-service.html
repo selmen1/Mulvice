@@ -10,23 +10,15 @@
 {% block navbar %}
 
 
-    {% include  "base/nav_base.html" %}
+    {% include  "base/side_bar_base.html" %}
 	
 {% endblock navbar %}
-
-{% block side_bar %}
-<hr>
-     {% include  "base/side_bar_base.html" %}
-     <hr>
-{% endblock side_bar %}
 
 
 {% block body %}
 
 
-
-
-
+<div class="container-fluid">
 	{% for service in services%}
 
 		<p>{{service.id}}</p>
@@ -36,6 +28,7 @@
 		<p>{{service.discription}}</p>
 		<br>
 		<a href="{% url 'my_services_detail' pk=service.pk %}"><button class="btn btn-primary">detail</button></a>
+		<a href="{% url 'my_services_del' pk=service.pk %}"><button class="btn btn-primary">delete</button></a>
 		<hr>
 	{% endfor %}
 
@@ -58,11 +51,8 @@
 	    </span>
 	</div>
 
-
-
-    
+</div>    
 {% endblock body %}
 
 
 
-	

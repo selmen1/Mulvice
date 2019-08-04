@@ -8,15 +8,17 @@ from Accounts.models import User
 ### ------profile model-----------------------------------
 class Profile(models.Model):
 	user = models.OneToOneField(User , 	 on_delete=models.CASCADE)
-	name = models.CharField(max_length=250, blank=True)
+	name = models.CharField(max_length=250,null=True ,blank=True)
 	lastname = models.CharField(max_length=250, null=True,blank=True)
 	birth_date = models.DateField(null=True,blank=True)
-	picture = models.FileField(blank=True )
+	picture = models.ImageField(blank=True )
 	sexe = models.CharField(max_length=50,null=True, blank=True )
 	diplome = models.CharField(max_length=250, null=True,blank=True)
+	formation = models.CharField(max_length=250, null=True,blank=True)
+	tel = models.CharField(max_length=10, null=True,blank=True)
 	creation_date	= models.DateField( auto_now_add= True,blank=True)
 	def __str__(self):
-		return 'Profile : {}'.format(self.user)
+		return 'Profile : {}'.format(self.id)
 
 	def get_full_name(self):
 		return '{} {}'.format(self.lastname , self.name)
@@ -44,15 +46,15 @@ def save_user_profile(sender , instance , **kwargs):
 
 class Service(models.Model):
 
-	profile = models.ForeignKey(Profile ,on_delete=models.CASCADE)
-	slug = models.SlugField(unique = True)
-	langtitude = models.IntegerField(null=True, blank=True)
-	latitude = models.IntegerField(null=True, blank=True)
-	service_name = models.CharField(max_length=50, blank=True)
-	discription = models.CharField(max_length=250, blank=True)
+	profile 		= models.ForeignKey(Profile ,on_delete=models.CASCADE)
+	slug 			= models.SlugField(unique = True)
+	langtitude 		= models.CharField(max_length=50, null=True,blank=True)
+	latitude 		= models.CharField(max_length=50, null=True,blank=True)
+	service_name 	= models.CharField(max_length=50, blank=True)
+	discription 	= models.CharField(max_length=250, blank=True)
 	wilaya 			= models.CharField(max_length=50, null=True,blank=True)
 	comune			= models.CharField(max_length=50,null=True, blank=True)
-	cover_pic 		= models.FileField(null=True,blank=True )
+	cover_pic 		= models.ImageField(null=True,blank=True )
 	email 			= models.EmailField(null=True,blank=True )
 	tel 			= models.CharField(max_length=12, null=True,blank=True )
 	facebook 		= models.CharField(max_length=50,null=True, blank=True)
@@ -85,7 +87,7 @@ pre_save.connect(pre_save_post_receiver , sender=Service)
 class Categorie(models.Model):
 	libelle = models.CharField(max_length=50, blank=True)
 	discription = models.CharField(max_length=250, blank=True)
-	icon =  models.FileField(null=True,blank=True )
+	icon =  models.ImageField(null=True,blank=True )
 	def __str__(self):
 		return self.libelle
 

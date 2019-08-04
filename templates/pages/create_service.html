@@ -1,9 +1,19 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
-<body>
+
+{% extends "base/base.html" %}
+
+
+{% block navbar %}
+    {% include  "base/nav_base.html" %}
+{% endblock navbar %}
+
+
+{% block body %}
+
+<h1>choisie votre location</h1>
+
+<div id='map1' ></div>
+<pre id='coordinates' class='coordinates'></pre>
+<button type="button" id="getcoordinates">Localiser Moi</button>
 
 <form method="POST" enctype="multipart/form-data">
 	{% csrf_token %}
@@ -11,6 +21,5 @@
 	{{form1.as_p}}
 	<button type="submit">ajouter</button>
 </form>
-
-</body>
-</html>
+    
+{% endblock body %}

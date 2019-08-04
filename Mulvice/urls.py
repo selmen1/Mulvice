@@ -20,10 +20,11 @@ from django.conf.urls.static import static
 from .views import *
 
 urlpatterns = [
+    path('' , home , name='home'),
     path('admin/', admin.site.urls ),
     path('services/', include('services.urls')),
     path('accounts/', include('Accounts.urls')),
-    path('' , home , name='home'),
+    path('api-data/', include('API.urls')),
 
     #path('', home  , name='home'),
 
