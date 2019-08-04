@@ -59,20 +59,23 @@ def activate(request, uidb64, token):
 
 @login_required
 def change_password(request):
+    template_name = 'change_password.html'
     if request.method == 'POST':
         form = PasswordChangeForm(data=request.POST , user = request.user)
 
         if form.is_valid():
             form.save()
 
-            return HttpResponse('password changed')
+            return redirect('profile')
+        else:
+            redirect('change_password')
 
     else:
         form = PasswordChangeForm(user = request.user)
 
         args =  {'form' : form }
 
-        return render(request , 'change_password.html' , args)
+        return render(request , template_name , args)
 
 
 

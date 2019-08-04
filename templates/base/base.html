@@ -1,3 +1,7 @@
+
+{% load static %}
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,44 +11,27 @@
 	    
 	{% endblock title %}</title>
 
-	<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
+<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+
+<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+<link href="{% static 'fonts/font-awesome.min.css' %}" rel="stylesheet">
+<link href="{% static 'fonts/ionicons.min.css' %}" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=ABeeZee">
+<link href="{% static 'css/Footer-Basic.css' %}" rel="stylesheet">
+<link href="{% static 'css/Footer-Dark.css' %}" rel="stylesheet">
+<link href="{% static 'css/Login-Form-Clean.css' %}" rel="stylesheet">
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
 <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v3.1.6/mapbox-gl-geocoder.css' type='text/css' />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/css/bootstrap-multiselect.css">
+
+<link href="{% static 'css/map.css' %}" rel="stylesheet"><!-- 
+<link href="{% static 'css/maps.css' %}" rel="stylesheet"> -->
+<link href="{% static 'css/styles.css' %}" rel="stylesheet">
 
 
-<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
-<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v3.1.6/mapbox-gl-geocoder.min.js'></script>
-  <style>
-    body { margin:0; padding:0; }
-    #map { height: 500px; width:50%;  }
-    .coordinates {
-background: rgba(0,0,0,0.5);
-color: #fff;
-position: absolute;
-bottom: 40px;
-left: 10px;
-padding:5px 10px;
-margin: 0;
-font-size: 11px;
-line-height: 18px;
-border-radius: 3px;
-display: none;
-}
 
 
-.mar {
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    user-select: none;
-    border: 0px;
-    padding: 0px;
-    margin: 0px;
-    max-width: none;
-    width: 40px;
-    height: 55px;
-}
-  </style>
 </head>
 <body>
 
@@ -63,5 +50,31 @@ display: none;
 {% block body %}
     
 {% endblock body %}
+
+
+
+  
+<!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script> -->
+
+<!-- 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/all-serv-map.js' %}"></script>
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
+<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v3.1.6/mapbox-gl-geocoder.min.js'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/js/bootstrap-multiselect.min.js"></script>
+<script src="{% static 'js/create_service_map.js' %}"></script>
+<script src="{% static 'js/service_map.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+
+
+<script type="text/javascript">
+	{% block jsmap %}
+	    
+	{% endblock jsmap %}
+</script>
+
 </body>
 </html>

@@ -2,7 +2,7 @@
 from django.urls                import path,re_path , include
 from Accounts.views             import *
 from services.views             import *
-from django.contrib.auth.views import LoginView ,LogoutView , PasswordResetView , PasswordResetCompleteView,  PasswordChangeDoneView, PasswordResetConfirmView, PasswordResetDoneView
+from django.contrib.auth.views import LoginView ,LogoutView , PasswordResetView , PasswordResetCompleteView,  PasswordChangeDoneView, PasswordResetConfirmView, PasswordResetDoneView ,PasswordChangeView
 
 urlpatterns = [
 
@@ -24,5 +24,5 @@ urlpatterns = [
 
     #re_path('profile/(?P<pk>\d+)/', profile , name='profile'),
 
-    path('change-password/', change_password , name='change_password'),
+    path('change_password', change_password, name='change_password'),
    ]   

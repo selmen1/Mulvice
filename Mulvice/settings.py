@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'rest_framework',
 
     'services',
     'Accounts',
@@ -92,6 +93,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+SERIALIZATION_MODULES = {
+    "geojson": "django.contrib.gis.serializers.geojson", 
+ }
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/

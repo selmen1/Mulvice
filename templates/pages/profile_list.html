@@ -1,0 +1,27 @@
+<!-- <html><body>
+<h1>Profiles</h1>
+<ul>
+    {% for profile in profiles %}
+    <li>{{ profile.name }}</li>
+    {% endfor %}
+</ul>
+</body></html>
+
+
+ -->
+
+
+
+{% load rest_framework %}
+
+<html><body>
+
+<h1>Profile - {{ profile.name }}</h1>
+
+<form action="#" method="POST">
+    {% csrf_token %}
+    {% render_form serializer %}
+    <input type="submit" value="Save">
+</form>
+
+</body></html>
