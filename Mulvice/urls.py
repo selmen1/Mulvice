@@ -17,10 +17,10 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path, re_path , include
 from django.conf.urls.static import static
-from .views import *
+from services.views import *
 
 urlpatterns = [
-    path('' , home , name='home'),
+    path('' , service , name='home'),
     path('admin/', admin.site.urls ),
     path('services/', include('services.urls')),
     path('accounts/', include('Accounts.urls')),

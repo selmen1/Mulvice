@@ -6,12 +6,9 @@ from django.http                    import HttpResponse ,JsonResponse
 from django.db.models               import Q
 from .models 						import *
 from .forms 						import *
-from . import views
-from rest_framework.response import Response
+from . 								import views
+from django.core.mail 				import send_mail, BadHeaderError
 
-
-from rest_framework.renderers import JSONRenderer
-from API.serializers import test
 
 # Create your views here.
 
@@ -43,18 +40,31 @@ def profile(reqeust ):
 
 def service(reqeust ):
 	template_name = 'pages/service.html'
-	categories_list = CategorieService.objects.select_related('service', 'categorie', )
+	categories_list = Service.objects.all()
+	categorie_options = Categorie.objects.all()
 	query = reqeust.GET.get('q')
 	query1 = reqeust.GET.get('q1')
+	query2 = reqeust.GET.get('q2')
 
 	if query :
-		categories_list = categories_list.filter(service__service_name =query)
+		categories_list = categories_list.filter(service_name =query)
 	elif query1:
 		categories_list = categories_list.filter(	categorie__libelle =query1)
-	elif query and query1:
-		categories_list = categories_list.filter(	Q(service__service_name =query)|
-													Q(categorie__libelle=query1))
-	
+	elif query2:
+		categories_list = categories_list.filter(	Q(wilaya =query2)|Q(comune =query2))
+	elif query and query1  : 
+		categories_list = categories_list.filter(	Q(service_name =query)|
+													Q(libelle=query1))
+	elif query and query2  : 
+		categories_list = categories_list.filter(	Q(service_name =query)|
+													Q(wilaya =query2)|Q(comune =query2))
+	elif query1 and query2  : 
+		categories_list = categories_list.filter(	Q(libelle=query1)|
+													Q(wilaya =query2)|Q(comune =query2))
+	elif query1 and query2 and query : 
+		categories_list = categories_list.filter(	Q(service_name=query)|
+													Q(libelle=query1)|
+													Q(wilaya =query2)|Q(comune =query2))
 	# json = []
 	# for c in categories_list:
 	# 	s = test(c.service)
@@ -68,7 +78,7 @@ def service(reqeust ):
 	context = { 
 				'categories':categories,
 				'categories_list':categories_list,
-				# 'json':json,
+				'categorie_options':categorie_options,
 
 				 }
 	return render(reqeust , template_name , context)
@@ -77,8 +87,12 @@ def service(reqeust ):
 
 def service_detail(reqeust , pk):
 	service = get_object_or_404(Service , pk = pk)
-
-	args = {"service": service}
+	profile_id = service.profile.id
+	profile = Profile.objects.get(pk = profile_id)
+	print(profile)
+	profile_form = ProfileDetailForm(instance=profile)
+	form = ServiceDetailForm(instance=service)
+	args = {"service": service , 'form':form , 'profile_form':profile_form}
 
 	return render(reqeust , 'pages/service_detail.html' , args)
 
@@ -96,21 +110,20 @@ def create_service(reqeust):
 	template_name = 'pages/create_service.html'
 
 	profile = Profile.objects.get(  pk = reqeust.user.pk)
-
 	form = ServiceForm(reqeust.POST or None )
-	form1 = CategorieServiceForm(reqeust.POST or None)
-	if form.is_valid() and form1.is_valid():
-		instance = form.save(commit =False)
-		instance.profile = profile
-		instance.save()
-		instance1 = form1.save(commit =False)
-		instance1.service = instance
-		instance1.save()
-
-		return redirect('my_services')
+	if reqeust.method == 'POST':
+		
+		if form.is_valid() :
+			instance = form.save(commit =False)
+			instance.profile = profile
+			instance.save()
+			instance.categorie.set(reqeust.POST.get('categorie'))
+			
+			return redirect('my_services')
+	
 
 		
-	context = { 'form' : form ,'form1' : form1 ,  }
+	context = { 'form' : form  }
 	return render(reqeust , template_name , context)
 
 
@@ -121,12 +134,8 @@ def my_services(reqeust ):
 	template_name = 'pages/my-service.html'
 	profile = Profile.objects.get(  pk = reqeust.user.pk)
 
-	service_list  = Service.objects.filter(profile = profile.pk)
+	services  = Service.objects.filter(profile = profile.pk)
 	
-	paginator = Paginator(service_list, 3) # Show 3 contacts per page
-	page = reqeust.GET.get('page')
-
-	services = paginator.get_page(page)
 	
 	context = {  'services':services}
 	return render(reqeust , template_name , context)
@@ -141,25 +150,21 @@ def my_services_detail(reqeust , pk ):
 
 	profile = Profile.objects.get(  pk = reqeust.user.pk)
 	service  = get_object_or_404(Service  , pk = pk)
-	servcat = get_object_or_404(CategorieService, service = service)
 
 	if reqeust.method == 'POST':
 		form = ServiceForm(reqeust.POST or None , reqeust.FILES or None  , instance=service)
-		form1 = CategorieServiceForm(reqeust.POST or None, reqeust.FILES or None, instance=servcat)
-		
+		print(reqeust.POST.get('categorie'))
 		try:
-			if form.is_valid() and form1.is_valid():
+			if form.is_valid() :
 				form.save()
-				form1.save()
 				
 				return redirect('my_services')
 		except Exception as e:
 				messages.warning(reqeust , 'the post was not save due to Error {}'.format(e))
 	else:
 		form = ServiceForm(instance=service)
-		form1 = CategorieServiceForm(instance=servcat)
 		
-	context = { 'form' : form ,'form1' : form1 , 'profile':profile}
+	context = { 'form' : form , 'service':service, 'profile':profile}
 	return render(reqeust , template_name , context)
 
 
@@ -204,5 +209,31 @@ def get_data(reqeust , *d , **dd):
 
 	return JsonResponse(geojson)
 
+
+
+
+def contact_us(reqeust):
+	template_name = 'pages/contact_us.html'
+
+
+	if reqeust.method == 'POST':
+		form = ContactUsForm(reqeust.POST)
+		if form.is_valid():
+			subject = form.cleaned_data['subject']
+			from_email = form.cleaned_data['from_email']
+			message = form.cleaned_data['message']
+			try:
+				send_mail(subject, message, from_email, ['localhost'])
+			except BadHeaderError:
+				return HttpResponse('Invalid header found.')
+			return redirect('contact_us')
+
+	else:
+		form = ContactUsForm()
+
+
+	args = {'form' : form , }
+
+	return render(reqeust , template_name , args)
 
 

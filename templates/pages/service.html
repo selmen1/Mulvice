@@ -41,20 +41,48 @@
                         </div>
                         <div class="form-row">
                             <div class="col">
-                                <form>
+                                <form method="GET" >
                                     <div class="form-row" id="map-search-adv" style="display: none;">
-                                        <div class="col-12 col-sm-6 col-lg-4 col-xl-4" style="padding: 15px;padding-bottom: 0px;"><input class="form-control" type="text" placeholder="Jours" style="border-radius: 20px;"></div>
-                                        <div class="col-12 col-sm-6 col-lg-4 col-xl-4" style="padding: 15px;padding-bottom: 0px;"><select class="form-control" style="border-radius: 20px;"><option value="" selected="">Sexe</option><option value="13">Homme</option><option value="Femme">Femme</option></select></div>
+                                        <div class="col-12 col-sm-6 col-lg-4 col-xl-4" style="padding: 15px;padding-bottom: 0px;">
+                                        	<input class="form-control" type="text" placeholder="Jours" style="border-radius: 20px;">
+                                        </div>
+                                        <div class="col-12 col-sm-6 col-lg-4 col-xl-4" style="padding: 15px;padding-bottom: 0px;">
+                                        	<select class="form-control" style="border-radius: 20px;">
+                                        		<option value="" selected="">Sexe</option
+                                        			><option value="13">Homme</option>
+                                        			<option value="Femme">Femme</option>
+                                        	</select></div>
                                         <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4"
-                                            style="padding: 15px;padding-bottom: 0px;"><input class="form-control" type="text" placeholder="Age" style="border-radius: 20px;"></div>
+                                            style="padding: 15px;padding-bottom: 0px;">
+                                            <input class="form-control" type="text" placeholder="Age" style="border-radius: 20px;">
+                                        </div>
                                     </div>
+
                                     <div class="form-row">
-                                        <div class="col-12 col-sm-6 col-lg-3" style="padding: 15px;padding-bottom: 0px;"><input class="form-control" type="text" placeholder="Mot-cle" style="border-radius: 20px;"></div>
-                                        <div class="col-12 col-sm-6 col-lg-3" style="padding: 15px;padding-bottom: 0px;"><input class="form-control" type="text" placeholder="Location" style="border-radius: 20px;"></div>
-                                        <div class="col-12 col-sm-6 col-lg-3" style="padding: 15px;padding-bottom: 0px;"><select class="form-control" placeholder="Categorie" style="border-radius: 20px;"><option value="" selected="">Categorie</option><optgroup label="Netoayage"><option value="12">Maison</option><option value="13">Voiture</option></optgroup><optgroup label="Pinture"><option value="">Mur</option><option value="">Bois</option></optgroup></select></div>
+                                        <div class="col-12 col-sm-6 col-lg-3" style="padding: 15px;padding-bottom: 0px;">
+                                        	<input class="form-control" name="q" type="text" placeholder="Nom de service" style="border-radius: 20px;">
+                                        </div>
+                                        <div class="col-12 col-sm-6 col-lg-3" style="padding: 15px;padding-bottom: 0px;">
+                                        	<input class="form-control"  name="q2" placeholder="Wilaya/Comune" style="border-radius: 20px;">
+                                        </div>
+                                        <div class="col-12 col-sm-6 col-lg-3" style="padding: 15px;padding-bottom: 0px;">
+                                        	<select class="form-control" name="q1" placeholder="Categorie" style="border-radius: 20px;">
+                                        		
+
+
+                                        		<option value="" selected="">Choisie une categorie..</option>
+                                        		
+                                        		{% for option in categorie_options %}
+                                        			<option value="{{option.libelle}}">{{option.libelle}}</option>
+                                        		{% endfor %}
+                                        	</select>
+                                        </div>
                                         <div
-                                            class="col-12 col-sm-6 col-lg-3" style="padding: 15px;padding-bottom: 0px;text-align: center;"><button class="btn btn-primary" type="submit" style="border-radius: 20px;width: 70%;">Rechercher</button><i class="fa fa-chevron-down" id="map-search-adv-icon" style="float: right;margin-top: 10px;transition: .25s;"></i></div>
-                            </div>
+                                            class="col-12 col-sm-6 col-lg-3" style="padding: 15px;padding-bottom: 0px;text-align: center;">
+                                            <button class="btn btn-primary" type="submit" style="border-radius: 20px;width: 70%;">Rechercher</button>
+                                            <i class="fa fa-chevron-down" id="map-search-adv-icon" style="float: right;margin-top: 10px;transition: .25s;"></i>
+                                        </div>
+                            		</div>
                             </form>
                         </div>
                 </div>
@@ -70,26 +98,22 @@
 <br>
 
 
-<form method="GET" >
-	<input type="text" name="q" placeholder="nom service" value="{{ request.GET.q}}">
-	<input type="text" name="q1" placeholder="categorie" value="{{ request.GET.q1}}">
-	<input type="submit" name="">
-</form>
-<hr>
-	
+<br><br>
 	
 	{% for cat in categories %}
 
 
-		<p>id: {{cat.service.id}}</p>
-		<p>Service: {{cat.service.service_name}}</p>
-		<p>Discription: {{cat.service.discription}}</p>
+		<p>id: {{cat.id}}</p>
+		<p>Service: {{cat.service_name}}</p>
+		<p>Discription: {{cat.discription}}</p>
 		
-		<p>Profile: {{cat.service.profile.get_full_name}}</p>
+		<p>Profile: {{cat.profile.get_full_name}}</p>
 		
-		<p>Categorie: {{cat.categorie.libelle}}</p>
-		
-		<a href="{% url 'service_detail' pk=cat.service.pk %}"><button class="btn btn-primary">detail</button></a>
+		<span>Categorie: {% for categorie in cat.categorie.all %}<ul>{{ categorie }}</ul>{% endfor %}</span>
+			
+		<p>{{ cat.categorie.first.icon.url }}</p>
+
+		<a href="{% url 'service_detail' pk=cat.pk %}"><button class="btn btn-primary">detail</button></a>
 		<hr><br>
 	{% endfor %}
 <br>
@@ -143,11 +167,11 @@
 						    type: 'Feature',
 						    geometry: {
 						        type: 'Point',
-						        coordinates: [parseFloat('{{ i.service.langtitude }}')  ,parseFloat( '{{ i.service.latitude }}') ]
+						        coordinates: [parseFloat('{{ i.langtitude }}')  ,parseFloat( '{{ i.latitude }}') ]
 						    } ,
 						    properties: {
-						        title: '{{ i.service.service_name }}',
-						        type: '{{ i.categorie.libelle }}',
+						        title: '{{ i.service_name }}',
+						        icon_url: '{{ i.categorie.first.icon.url }}',
 						    }
 						    },
 						{% endfor %}
@@ -159,13 +183,13 @@
 				geojson_planned.features.forEach(function(marker) {
 		        var el = document.createElement('div');
 		        el.className = 'marker';
-		        el.style.backgroundImage = "url(/static/images/" + marker.properties.type +".png";
+		        el.style.backgroundImage = "url(" + marker.properties.icon_url +")";
 		        el.style.width = '40px';
 		        el.style.height = '55px';
 		     
 			    // create the popup
 			    var popup = new mapboxgl.Popup({ offset: 25 })
-			    .setHTML('<h1> ' +marker.properties.type+ '</h1> <br><button type="submit" class="btn btn-primary">Ajouter</button>');
+			    .setHTML('<h1> ' +marker.properties.title+ '</h1> <br><button type="submit" class="btn btn-primary">Ajouter</button>');
 			    
 			     
 			    // add marker to map

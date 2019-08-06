@@ -1,5 +1,9 @@
 
-#map1 { height: 300px; width:25%;}
+#map1 { position: absolute;
+top: 0;
+left: 0;
+height: 100%;
+width: 70%;}
 
 #map {
   position: absolute;

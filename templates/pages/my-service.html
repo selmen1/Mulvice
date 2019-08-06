@@ -1,5 +1,5 @@
 {% extends "base/base.html" %}
-
+{% load static %}
 
 
 
@@ -16,6 +16,128 @@
 
 
 {% block body %}
+
+ 	<div class="container-fluid top-padding">
+        <div class="row" style="margin-top: 20px;margin-left: 20px;">
+            <div class="col-sm-12 col-lg-9">
+                <h1 class="name-heading">Mes Services</h1>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-2"><a href="{% url 'home' %}"><img class="pull-right" src="{% static 'images/favicon-02-300x300.png' %}" style="width: 100px;"></a></div>
+        </div>
+    </div>
+
+    <div>
+        <div class="container-fluid">
+            <div class="row">
+                
+            	{% if services %}
+
+	                <div class="col-md-4 col-lg-3 col-xl-3">
+	                    <div class="new-service" style="text-align: center;margin: 15px;"><a href="{% url 'create-service' %}" style="width: 100%;"><i class="fa fa-plus" style="margin-right: 10px;"></i>Ajouter un Service</a></div>
+	                </div>
+	                <div class="col-md-7 col-lg-8">
+	                    <div role="tablist" id="accordion-1" style="margin-bottom: 30px;">
+	                        
+
+					{% for service in services%}
+							{% if forloop.first %}
+
+
+
+							 <div class="modal fade" role="dialog" tabindex="-1" id="del-service-modal">
+						        <div class="modal-dialog" role="document">
+						            <div class="modal-content">
+						                <div class="modal-header">
+						                    <h4 class="modal-title">Supprimer</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+						                <div class="modal-body">
+						                    <p>Êtes-vous sûr de vouloir supprimer ce service ?</p>
+						                </div>
+						                <div class="modal-footer"><button class="btn btn-light" type="button" data-dismiss="modal">NON</button>
+						                	<a href="{% url 'my_services_del' pk=service.pk %}"><button class="btn btn-primary" type="button" >OUI</button></a></div>
+						            </div>
+						        </div>
+							</div>
+
+
+
+							
+	                        <div class="card">
+	                            <div class="card-header" role="tab" style="background-color: #ffffff;">
+	                                <h5 class="mb-0"><a data-toggle="collapse" aria-expanded="true" aria-controls="accordion-1 .item-1" href="div#accordion-1 .item-1" id="collaps-btn1">{{service.service_name}}</a><i class="fa fa-remove" style="float: right;" data-toggle="modal" data-target="#del-service-modal"></i></h5>
+	                                
+		                        </div>
+		                        <div class="collapse show item-1" role="tabpanel" data-parent="#accordion-1" id="test1" style="height: 500px;">
+		                            <div class="card-body">
+		                                <div style="width: 100%;height: 200px;position: relative;">
+		                                	
+		                                	{% if service.cover_pic %}
+		                                		<img src="{{service.cover_pic.url}}" style="width: 100%;height: 200px;object-fit: cover;position: relative;">  
+		                                	{% else %} 
+		                                		<img src="{% static 'images/default.jpg' %} " style="width: 100%;height: 200px;object-fit: cover;position: relative;">  
+
+
+		                                	{% endif %}
+
+		                                	<img style="width: 60px;height: 60px;background-color: #ffd800;position: absolute;bottom: -30px;right: 20px;padding: 10px;border-radius: 50%;"
+		                                        src="{{ service.categorie.first.icon.url }}">
+		                                </div>
+		                                <h1 style="margin-top: 30px;margin-bottom: 20px;">{{service.categorie.first}}</h1>
+		                                <p class="card-text" style="font-size: 20px;font-family: 'ABeeZee';font-weight: 600;height: 100px;overflow: hidden;">{{service.discription}}<br></p><a href="{% url 'my_services_detail' pk=service.pk %}"><button class="btn btn-primary">Detail</button></a></div>
+		                        </div>
+	                    	</div>
+                {% else %}
+
+                	<div class="card">
+                        <div class="card-header" role="tab" style="display: initial;background-color: #fff;">
+                            <h5 id="heading2" class="mb-0"><a data-toggle="collapse" aria-expanded="false" aria-controls="accordion-1 .item-2" href="div#accordion-1 .item-{{service.id}}" id="collaps-btn{{service.id}}">{{service.service_name}}</a><i class="fa fa-remove" style="float: right;" data-toggle="modal" data-target="#del-service-modal"></i></h5>
+                        </div>
+                        <div class="collapse item-{{service.id}}" role="tabpanel" data-parent="#accordion-1" style="height: 500px;">
+                            <div class="card-body">
+                                <div style="width: 100%;height: 200px;position: relative;">
+
+											{% if service.cover_pic %}
+		                                		<img src="{{service.cover_pic.url}}" style="width: 100%;height: 200px;object-fit: cover;position: relative;">  
+		                                	{% else %} 
+		                                		<img src="{% static 'images/default.jpg' %} " style="width: 100%;height: 200px;object-fit: cover;position: relative;">  
+
+
+		                                	{% endif %}
+
+                                </div>
+                                <h1 style="margin-top: 30px;margin-bottom: 20px;">{{service.categorie.first}}</h1>
+                                <p class="card-text" style="font-size: 20px;font-family: 'ABeeZee';font-weight: 600;height: 100px;overflow: hidden;"><strong>{{service.discription}}</strong><br></p><a href="{% url 'my_services_detail' pk=service.pk %}"><button class="btn btn-primary">Detail</button></a></div>
+                        </div>
+                    </div>
+
+                {% endif %}
+
+
+	                {% endfor %}
+
+
+
+                {% else %}
+
+                	<div class="container" style="height: 200px;padding: 20% 0 50%;">
+				        <div class="alert alert-success" role="alert"><span><strong>Vous n'avez pas encore créé de service ! Voulez-vous en </strong><a href="{% url 'create-service' %}"><strong>créer</strong></a><strong> un maintenant?</strong><br></span></div>
+				    </div>
+
+
+                {% endif %}
+
+
+               
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}
+
+
+
+
+
+
 
 
 <div class="container-fluid">
@@ -52,7 +174,3 @@
 	</div>
 
 </div>    
-{% endblock body %}
-
-
-
