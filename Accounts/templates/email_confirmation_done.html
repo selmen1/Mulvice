@@ -1,1 +1,9 @@
-<p>Thank you for your email confirmation. Now you can <a href="{% url 'login' %}">login</a> to your account.</p>
+
+{% extends "base/base.html" %}
+
+{% block body %}
+   
+    <div class="container" style="height: 200px;padding: 20% 0 50%;">
+        <div class="alert alert-success" role="alert"><span><strong>Merci pour votre confirmation de courrier électronique. Maintenant, vous pouvez vous </strong><a href="{% url 'login' %}"><strong>connecter </strong></a><strong>à votre compte.</strong><br></span></div>
+    </div>
+{% endblock body %}

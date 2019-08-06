@@ -24,9 +24,9 @@
             <div class="collapse navbar-collapse justify-content-center" id="navcol-1">
                 <ul class="nav navbar-nav">
                     <li class="nav-item" role="presentation"><a class="nav-link" id="link1" href="{% url 'home' %}" data-a="a1">Acceuil</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link white-menu-link" id="link2" href="{% url 'services' %}" data-a="a2">Services</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link white-menu-linkactive" id="link3" href="#" data-a="a3">Categories</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" id="link4" data-a="a4" href="#">Devenir prestatire</a></li>
+                    
+                    <li class="nav-item" role="presentation"><a class="nav-link white-menu-linkactive" id="link3" href="{% url 'contact_us' %}" data-a="a3">Categories</a></li>
+                    
                     <li class="nav-item" role="presentation"><a class="nav-link white-menu-link" id="link5" href="#" data-a="a5">Contacter Nous</a>
                         {% if user.is_authenticated %}
                         <a class="nav-link log-in-link active" id="link5" href="{% url 'logout' %}" data-a="a5">Déconnecter</a>

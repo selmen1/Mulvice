@@ -42,6 +42,17 @@ def save_user_profile(sender , instance , **kwargs):
 ### ------profile model-----------------------------------
 
 
+
+# --------- categorie --------------
+class Categorie(models.Model):
+	libelle = models.CharField(max_length=50, blank=True)
+	discription = models.CharField(max_length=250, blank=True)
+	icon =  models.ImageField(null=True,blank=True )
+	def __str__(self):
+		return self.libelle
+
+# --------- categorie --------------
+
 # --------- service --------------
 
 
@@ -60,6 +71,7 @@ class Service(models.Model):
 	tel 			= models.CharField(max_length=12, null=True,blank=True )
 	facebook 		= models.CharField(max_length=50,null=True, blank=True)
 	instagram 		= models.CharField(max_length=50,null=True, blank=True)
+	categorie 		= models.ManyToManyField(Categorie , null = True, blank=True)
 	creation_date	= models.DateField( auto_now_add= True) 
 	def __str__(self):
 		return self.slug
@@ -84,21 +96,6 @@ def pre_save_post_receiver(sender , instance , **kwargs):
 pre_save.connect(pre_save_post_receiver , sender=Service)
 
 
-# --------- categorie --------------
-class Categorie(models.Model):
-	libelle = models.CharField(max_length=50, blank=True)
-	discription = models.CharField(max_length=250, blank=True)
-	icon =  models.ImageField(null=True,blank=True )
-	def __str__(self):
-		return self.libelle
-
-# --------- categorie --------------
-
-class CategorieService(models.Model):
-	categorie = models.ForeignKey(Categorie ,on_delete=models.CASCADE)
-	service = models.ForeignKey(Service ,on_delete=models.CASCADE)
-	class Meta:
-		unique_together = (("categorie", "service"),)
 
 =======
 from django.contrib.auth.models import User

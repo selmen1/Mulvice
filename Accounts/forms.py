@@ -6,11 +6,28 @@ from .models import User
 #--------------user creation form-----------------
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True)
+    password1 = forms.CharField(
+        label = 'Mot de passe',
+        strip=False,
+        widget=forms.PasswordInput,
 
+    )
+    password2 = forms.CharField(
+        label = 'Confirmation',
+        strip=False,
+        widget=forms.PasswordInput,
+
+    )
+
+
+
+    email.widget.attrs.update({'class': 'form-control','autofocus': True })
+    password1.widget.attrs.update({'class': 'form-control','autofocus': True})
+    password2.widget.attrs.update({'class': 'form-control','autofocus': True })
     class Meta:
         model = User
         fields = (
-            'email',
+            'email', 
             'password1',
             'password2',
             )
